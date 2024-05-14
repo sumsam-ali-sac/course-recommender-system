@@ -44,5 +44,6 @@ df = pd.read_csv(csv_path)
 df['Embeddings'] = df['Embeddings'].apply(process_embeddings)
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    # Bind to the port specified by the environment variable
+    port = 5000
     app.run(host='0.0.0.0', port=port)
