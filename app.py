@@ -1,7 +1,6 @@
+import os
 from flask import Flask, request, jsonify
-import ast
 from transformers import TFDistilBertModel, DistilBertTokenizer
-import tensorflow as tf
 import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
@@ -38,10 +37,12 @@ model_name = 'distilbert-base-uncased'
 tokenizer = DistilBertTokenizer.from_pretrained(model_name)
 model = TFDistilBertModel.from_pretrained(model_name)
 
-df = pd.read_csv("courses_data.csv")
+# Ensure the path is relative to the current file
+csv_path = os.path.join(os.path.dirname(__file__), "courses_data.csv")
+df = pd.read_csv(csv_path)
 
 df['Embeddings'] = df['Embeddings'].apply(process_embeddings)
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
